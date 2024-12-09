@@ -21,17 +21,12 @@ def scrape_price(url):
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Determine the selector based on the website
-        if "amazon" in url:
-            price_element = soup.select_one('.a-price-whole')
-        elif "flipkart" in url:
-            price_element = soup.select_one('._30jeq3')  # Example Flipkart price class
-        else:
-            return None
+        # Update with the correct selector for your target site
+        price_element = soup.select_one('.a-price-whole')  # For Amazon, for example
 
         if price_element:
             price_text = price_element.text.strip()
-            price = float(price_text.replace(',', '').replace('₹', ''))
+            price = float(price_text.replace(',', '').replace('₹', ''))  # Clean and convert price
             return price
         else:
             print("Price element not found.")
